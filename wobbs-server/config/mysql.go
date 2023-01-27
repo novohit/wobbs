@@ -10,6 +10,7 @@ import (
 	"log"
 	"os"
 	"time"
+	"wobbs/model"
 )
 
 var DB *gorm.DB
@@ -60,7 +61,7 @@ func InitDB(conf *MySQLConfig) *gorm.DB {
 	sqlDB.SetMaxOpenConns(100)          //设置打开数据库连接的最大数量
 	sqlDB.SetConnMaxLifetime(time.Hour) //设置了连接可复用的最大时间
 	//数据库迁移
-	//db.AutoMigrate(&model.User{})
+	db.AutoMigrate(&model.User{})
 	//db.AutoMigrate(&model.Partition{})
 	//db.AutoMigrate(&model.Video{})
 	//db.AutoMigrate(&model.Resource{})

@@ -10,6 +10,7 @@ import (
 	"runtime/debug"
 	"strings"
 	"time"
+	"wobbs/common"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -62,14 +63,14 @@ func GinzapWithConfig(logger *zap.Logger, conf *Config) gin.HandlerFunc {
 			fields := []zapcore.Field{
 				zap.Int("status", c.Writer.Status()),
 				zap.String("method", c.Request.Method),
-				zap.String("path", path),
+				//zap.String("path", path),
 				zap.String("query", query),
 				zap.String("ip", c.ClientIP()),
-				zap.String("user-agent", c.Request.UserAgent()),
+				//zap.String("user-agent", c.Request.UserAgent()),
 				zap.Duration("latency", latency),
 			}
 			if conf.TimeFormat != "" {
-				fields = append(fields, zap.String("time", end.Format(conf.TimeFormat)))
+				//fields = append(fields, zap.String("time", end.Format(conf.TimeFormat)))
 			}
 
 			if conf.Context != nil {
@@ -92,13 +93,27 @@ func defaultHandleRecovery(c *gin.Context, err interface{}) {
 	c.AbortWithStatus(http.StatusInternalServerError)
 }
 
+func customHandleRecovery(c *gin.Context, err interface{}) {
+	switch v := err.(type) {
+	case common.CustomError:
+		common.FailByCode(c, v.ErrorCode)
+	case error:
+		common.FailByMsg(c, v.Error())
+	case string:
+		common.FailByMsg(c, v)
+	default:
+		common.FailByMsg(c, "未知错误")
+	}
+	c.Abort()
+}
+
 // RecoveryWithZap returns a gin.HandlerFunc (middleware)
 // that recovers from any panics and logs requests using uber-go/zap.
 // All errors are logged using zap.Error().
 // stack means whether output the stack info.
 // The stack info is easy to find where the error occurs but the stack info is too large.
 func RecoveryWithZap(logger *zap.Logger, stack bool) gin.HandlerFunc {
-	return CustomRecoveryWithZap(logger, stack, defaultHandleRecovery)
+	return CustomRecoveryWithZap(logger, stack, customHandleRecovery)
 }
 
 // CustomRecoveryWithZap returns a gin.HandlerFunc (middleware) with a custom recovery handler
@@ -109,6 +124,7 @@ func RecoveryWithZap(logger *zap.Logger, stack bool) gin.HandlerFunc {
 func CustomRecoveryWithZap(logger *zap.Logger, stack bool, recovery gin.RecoveryFunc) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		defer func() {
+			path := c.Request.URL.Path
 			if err := recover(); err != nil {
 				// Check for a broken connection, as it is not really a
 				// condition that warrants a panic stack trace.
@@ -123,7 +139,7 @@ func CustomRecoveryWithZap(logger *zap.Logger, stack bool, recovery gin.Recovery
 
 				httpRequest, _ := httputil.DumpRequest(c.Request, false)
 				if brokenPipe {
-					logger.Error(c.Request.URL.Path,
+					logger.Error(path,
 						zap.Any("error", err),
 						zap.String("request", string(httpRequest)),
 					)
@@ -133,20 +149,20 @@ func CustomRecoveryWithZap(logger *zap.Logger, stack bool, recovery gin.Recovery
 					return
 				}
 
-				if stack {
-					logger.Error("[Recovery from panic]",
-						zap.Time("time", time.Now()),
-						zap.Any("error", err),
-						zap.String("request", string(httpRequest)),
-						zap.String("stack", string(debug.Stack())),
-					)
-				} else {
-					logger.Error("[Recovery from panic]",
-						zap.Time("time", time.Now()),
-						zap.Any("error", err),
-						zap.String("request", string(httpRequest)),
-					)
+				fields := []zapcore.Field{
+					zap.Any("error", err),
+					zap.String("path", path),
+					zap.String("method", c.Request.Method),
+					zap.String("ip", c.ClientIP()),
+					zap.String("user-agent", c.Request.UserAgent()),
+					//zap.String("request", string(httpRequest)),
 				}
+
+				if stack {
+					fields = append(fields, zap.String("stack", string(debug.Stack())))
+				}
+
+				logger.Error("[Recovery from panic]", fields...)
 				recovery(c, err)
 			}
 		}()

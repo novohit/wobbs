@@ -3,14 +3,15 @@ mode: "release"
 host: localhost
 port: 8081
 version: "v0.0.1"
-start_time: "2020-07-01"
-machine_id: 1
+snowflake:
+  start_time: "2023-01-01"
+  machine_id: 1
 
 auth:
   jwt_expire: 8760
 
 log:
-  model: "g"
+  model: "dev"
   level: "info"
   filename: "app.log"
   max_size: 200
@@ -21,7 +22,7 @@ mysql:
   port: 3308
   username: root
   password: root
-  database: "gorm-demo"
+  database: "wobbs"
   max_open_conns: 200
   max_idle_conns: 50
 redis:

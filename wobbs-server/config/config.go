@@ -10,17 +10,21 @@ import (
 var Conf = new(AppConfig)
 
 type AppConfig struct {
-	Name      string `mapstructure:"name"`
-	Host      string `mapstructure:"host"`
-	Port      int    `mapstructure:"port"`
-	Mode      string `mapstructure:"mode"`
-	Version   string `mapstructure:"version"`
+	Name    string `mapstructure:"name"`
+	Host    string `mapstructure:"host"`
+	Port    int    `mapstructure:"port"`
+	Mode    string `mapstructure:"mode"`
+	Version string `mapstructure:"version"`
+
+	*SnowflakeConfig `mapstructure:"snowflake"`
+	*LogConfig       `mapstructure:"log"`
+	*MySQLConfig     `mapstructure:"mysql"`
+	*RedisConfig     `mapstructure:"redis"`
+}
+
+type SnowflakeConfig struct {
 	StartTime string `mapstructure:"start_time"`
 	MachineID int64  `mapstructure:"machine_id"`
-
-	*LogConfig   `mapstructure:"log"`
-	*MySQLConfig `mapstructure:"mysql"`
-	*RedisConfig `mapstructure:"redis"`
 }
 
 type MySQLConfig struct {
