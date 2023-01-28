@@ -10,7 +10,7 @@ import (
 	"log"
 	"os"
 	"time"
-	"wobbs/model"
+	"wobbs-server/model"
 )
 
 var DB *gorm.DB

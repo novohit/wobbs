@@ -1,9 +1,8 @@
 package dto
 
 type LoginDTO struct {
-	User     string `json:"user" binding:"required"`
+	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
-	ID       int    `json:"id" binding:"required,min=10"`
 }
 
 type RegisterDTO struct {

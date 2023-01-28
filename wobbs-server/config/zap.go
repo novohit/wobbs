@@ -10,7 +10,7 @@ import (
 	"runtime/debug"
 	"strings"
 	"time"
-	"wobbs/common"
+	"wobbs-server/common"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"

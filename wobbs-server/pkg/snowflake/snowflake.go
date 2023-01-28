@@ -27,11 +27,11 @@ func Init(startTime string, machineID int64) {
 }
 
 // 返回int64位的 id值
-func GenID() int64 {
+func GenerateID() int64 {
 	return node.Generate().Int64()
 }
 
 func main() {
 	Init("2023-01-01", 1)
-	println(GenID())
+	println(GenerateID())
 }

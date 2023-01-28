@@ -13,8 +13,9 @@ func GetUserInfoByID(ctx *gin.Context) {
 	/*uid := util.StringToInt(ctx.Query("uid"))
 	res := service.GetUserInfoByIDService(uid)
 	response.HandleResponse(ctx, res)*/
+	value, _ := ctx.Get("userId")
 	ctx.JSON(http.StatusOK, gin.H{
-		"msg": "hello",
+		"msg": value,
 	})
 }
 
@@ -27,4 +28,14 @@ func Register(ctx *gin.Context) {
 	logic.Register(registerDTO)
 
 	common.Success(ctx, nil)
+}
+
+func Login(ctx *gin.Context) {
+	var loginDTO dto.LoginDTO
+	if err := ctx.ShouldBind(&loginDTO); err != nil {
+		config.ValidateError(ctx, err)
+		return
+	}
+	token := logic.Login(loginDTO)
+	common.Success(ctx, token)
 }

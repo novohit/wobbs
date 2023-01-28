@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"wobbs/common"
+	"wobbs-server/common"
 
 	"github.com/gin-gonic/gin"
 )

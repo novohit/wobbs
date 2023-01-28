@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"go.uber.org/zap"
 	"net/http"
 	"reflect"
 	"strings"
@@ -60,7 +61,6 @@ func removeTopStruct(errMsg map[string]string) map[string]string {
 	res := make(map[string]string)
 	for field, msg := range errMsg {
 		res[field[strings.Index(field, ".")+1:]] = msg
-		fmt.Println(field)
 	}
 	return res
 }
@@ -68,6 +68,7 @@ func removeTopStruct(errMsg map[string]string) map[string]string {
 func ValidateError(c *gin.Context, err error) {
 	errs, ok := err.(validator.ValidationErrors)
 	// 如果不是参数错误，比如是json格式错误
+	zap.L().Error(err.Error())
 	if !ok {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
@@ -78,6 +79,7 @@ func ValidateError(c *gin.Context, err error) {
 	//	"RegisterDTO.Name": "Name长度必须至少为3个字符",
 	//	"RegisterDTO.RePassword": "RePassword必须等于Password"
 	//}
+	zap.L().Error("errors", zap.Any("errors", removeTopStruct(errs.Translate(trans))))
 	c.JSON(http.StatusBadRequest, gin.H{
 		"error": removeTopStruct(errs.Translate(trans)),
 	})
