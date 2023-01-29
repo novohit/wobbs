@@ -26,8 +26,8 @@ mysql:
   max_open_conns: 200
   max_idle_conns: 50
 redis:
-  host: redis507
+  host: 116.62.108.144
   port: 6379
-  password: ""
-  database: 0
+  password: redis
+  database: 5
   pool_size: 100

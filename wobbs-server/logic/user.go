@@ -1,13 +1,18 @@
 package logic
 
 import (
+	"context"
 	"errors"
+	"github.com/gin-gonic/gin"
+	"strconv"
+	"time"
 	"wobbs-server/common"
 	"wobbs-server/config"
 	"wobbs-server/dto"
 	"wobbs-server/model"
 	"wobbs-server/pkg/jwt"
 	"wobbs-server/pkg/snowflake"
+	"wobbs-server/vo"
 )
 
 func Register(user dto.RegisterDTO) {
@@ -31,7 +36,7 @@ func Register(user dto.RegisterDTO) {
 	}
 }
 
-func Login(user dto.LoginDTO) string {
+func Login(user dto.LoginDTO, ctx *gin.Context) vo.Tokens {
 	dbUser := FindUserByUsername(user.Username)
 	if dbUser.ID == 0 {
 		panic(common.NewCustomError(common.CodeInvalidPassword))
@@ -39,11 +44,21 @@ func Login(user dto.LoginDTO) string {
 	if dbUser.Password != user.Password {
 		panic(common.NewCustomError(common.CodeInvalidPassword))
 	}
-	token, err := jwt.AccessToken(dbUser.UserID)
+	accessToken, err := jwt.AccessToken(dbUser.UserID)
 	if err != nil {
 		panic(err)
 	}
-	return token
+	refreshToken, err := jwt.RefreshToken(dbUser.UserID)
+	if err != nil {
+		panic(err)
+	}
+	// 将access_token 存入redis中 限制同一用户同一IP 同一时间只能登录一个设备
+	// key user:token:user_id:IP value access_token
+	config.RDB.Set(context.Background(), common.ConstUserTokenPrefix+strconv.FormatInt(dbUser.UserID, 10)+":"+ctx.RemoteIP(), accessToken, 2*time.Hour)
+	return vo.Tokens{
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
+	}
 }
 
 func isUserExist(username string) bool {

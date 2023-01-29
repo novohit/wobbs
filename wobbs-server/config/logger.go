@@ -31,7 +31,7 @@ func InitLogger(logConfig *LogConfig) {
 	logger := zap.New(core, zap.AddCaller())
 
 	zap.ReplaceGlobals(logger)
-	zap.L().Info("init logger success")
+	zap.L().Info("logger init success")
 }
 
 func getProdEncoder() zapcore.Encoder {

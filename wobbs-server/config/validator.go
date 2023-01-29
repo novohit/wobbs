@@ -68,8 +68,8 @@ func removeTopStruct(errMsg map[string]string) map[string]string {
 func ValidateError(c *gin.Context, err error) {
 	errs, ok := err.(validator.ValidationErrors)
 	// 如果不是参数错误，比如是json格式错误
-	zap.L().Error(err.Error())
 	if !ok {
+		zap.L().Error(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
@@ -81,7 +81,7 @@ func ValidateError(c *gin.Context, err error) {
 	//}
 	zap.L().Error("errors", zap.Any("errors", removeTopStruct(errs.Translate(trans))))
 	c.JSON(http.StatusBadRequest, gin.H{
-		"error": removeTopStruct(errs.Translate(trans)),
+		"data": removeTopStruct(errs.Translate(trans)),
 	})
 }
 

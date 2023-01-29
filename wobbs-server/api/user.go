@@ -1,8 +1,11 @@
 package api
 
 import (
-	"github.com/gin-gonic/gin"
+	"fmt"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
+
 	"wobbs-server/common"
 	"wobbs-server/config"
 	"wobbs-server/dto"
@@ -32,10 +35,11 @@ func Register(ctx *gin.Context) {
 
 func Login(ctx *gin.Context) {
 	var loginDTO dto.LoginDTO
+	fmt.Println(ctx.Request.Body)
 	if err := ctx.ShouldBind(&loginDTO); err != nil {
 		config.ValidateError(ctx, err)
 		return
 	}
-	token := logic.Login(loginDTO)
-	common.Success(ctx, token)
+	tokens := logic.Login(loginDTO, ctx)
+	common.Success(ctx, tokens)
 }

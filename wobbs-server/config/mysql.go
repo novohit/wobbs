@@ -2,14 +2,16 @@ package config
 
 import (
 	"fmt"
+	"log"
+	"os"
+	"time"
+
 	"go.uber.org/zap"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
-	"log"
-	"os"
-	"time"
+
 	"wobbs-server/model"
 )
 
@@ -74,7 +76,7 @@ func InitDB(conf *MySQLConfig) *gorm.DB {
 	//db.AutoMigrate(&model.UserMessage{}) //私信表
 	//db.AutoMigrate(&model.Danmaku{})     //弹幕表
 	//db.AutoMigrate(&model.Carousel{})    //轮播图表
-	zap.L().Info("init database success")
+	zap.L().Info("database init success")
 	DB = db
 	return db
 }

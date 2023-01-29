@@ -60,7 +60,7 @@ func InitConfig(path string) {
 	// 相对路径：相对执行的可执行文件的相对路径
 	//viper.SetConfigFile("./config/config.yaml")
 	// 绝对路径：系统中实际的文件路径
-	//viper.SetConfigFile("/Users/liwenzhou/Desktop/bluebell/config/config.yaml")
+	//viper.SetConfigFile("/Users/liwenzhou/Desktop/wobbs/config/config.yaml")
 
 	// 方式2：指定配置文件名和配置文件的位置，viper自行查找可用的配置文件
 	// 配置文件名不需要带后缀
