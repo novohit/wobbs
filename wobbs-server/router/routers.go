@@ -19,7 +19,8 @@ func InitRouter() *gin.Engine {
 	//r.Use(middleware.GlobalErrors())
 	v1 := r.Group("/api")
 	{
-		GetUserRoutes(v1) //用户路由
+		GetUserRoutes(v1)      //用户相关路由
+		GetCommunityRoutes(v1) // 社区相关路由
 	}
 	zap.L().Info("init router success")
 	return r

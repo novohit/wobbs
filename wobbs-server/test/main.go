@@ -2,8 +2,9 @@ package main
 
 import (
 	"flag"
-	"wobbs/config"
-	"wobbs/model"
+
+	"wobbs-server/config"
+	"wobbs-server/model"
 )
 
 func main() {

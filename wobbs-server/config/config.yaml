@@ -8,7 +8,7 @@ snowflake:
   machine_id: 1
 
 auth:
-  jwt_expire: 8760
+  jwt_expire:
 
 log:
   model: "dev"

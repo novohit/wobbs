@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"time"
+	"wobbs-server/pkg/snowflake"
 
 	"go.uber.org/zap"
 	"gorm.io/driver/mysql"
@@ -64,7 +65,21 @@ func InitDB(conf *MySQLConfig) *gorm.DB {
 	sqlDB.SetConnMaxLifetime(time.Hour) //设置了连接可复用的最大时间
 	//数据库迁移
 	db.AutoMigrate(&model.User{})
-	//db.AutoMigrate(&model.Partition{})
+	db.AutoMigrate(&model.Category{})
+	db.Create(&model.User{BaseModel: model.BaseModel{ID: 1},
+		UserID:   snowflake.GenerateID(),
+		Username: "admin", Password: "admin",
+		Gender: "male",
+		Age:    11})
+	db.Create(&model.User{BaseModel: model.BaseModel{ID: 2},
+		UserID:   snowflake.GenerateID(),
+		Username: "novo", Password: "novo",
+		Gender: "male",
+		Age:    11})
+	db.Create(&model.Category{BaseModel: model.BaseModel{ID: 1}, Name: "Go", Description: "Go社区"})
+	db.Create(&model.Category{BaseModel: model.BaseModel{ID: 2}, Name: "Java", Description: "Java社区"})
+	db.Create(&model.Category{BaseModel: model.BaseModel{ID: 3}, Name: "LeetCode", Description: "算法社区"})
+	db.Create(&model.Category{BaseModel: model.BaseModel{ID: 4}, Name: "Acwing", Description: "算法社区"})
 	//db.AutoMigrate(&model.Video{})
 	//db.AutoMigrate(&model.Resource{})
 	//db.AutoMigrate(&model.Liked{})       //点赞表

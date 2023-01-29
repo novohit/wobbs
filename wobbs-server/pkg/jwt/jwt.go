@@ -33,7 +33,7 @@ func generateToken(userId int64, expire time.Duration) (string, error) {
 }
 
 func AccessToken(userId int64) (string, error) {
-	return generateToken(userId, time.Minute)
+	return generateToken(userId, 2*time.Hour)
 }
 
 func RefreshToken(userId int64) (string, error) {
