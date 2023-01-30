@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -35,7 +34,6 @@ func Register(ctx *gin.Context) {
 
 func Login(ctx *gin.Context) {
 	var loginDTO dto.LoginDTO
-	fmt.Println(ctx.Request.Body)
 	if err := ctx.ShouldBind(&loginDTO); err != nil {
 		config.ValidateError(ctx, err)
 		return

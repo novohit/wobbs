@@ -21,6 +21,7 @@ func InitRouter() *gin.Engine {
 	{
 		GetUserRoutes(v1)      //用户相关路由
 		GetCommunityRoutes(v1) // 社区相关路由
+		GetPostRoutes(v1)      // 帖子相关路由
 	}
 	zap.L().Info("init router success")
 	return r

@@ -77,3 +77,10 @@ func FindUserByUsername(username string) model.User {
 	DB.Where(&model.User{Username: username}).Find(&user)
 	return user
 }
+
+func GetUserById(userId int64) model.User {
+	DB := config.GetDB()
+	var user model.User
+	DB.Where(&model.User{UserID: userId}).Find(&user)
+	return user
+}

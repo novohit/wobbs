@@ -80,7 +80,8 @@ func InitDB(conf *MySQLConfig) *gorm.DB {
 	db.Create(&model.Category{BaseModel: model.BaseModel{ID: 2}, Name: "Java", Description: "Java社区"})
 	db.Create(&model.Category{BaseModel: model.BaseModel{ID: 3}, Name: "LeetCode", Description: "算法社区"})
 	db.Create(&model.Category{BaseModel: model.BaseModel{ID: 4}, Name: "Acwing", Description: "算法社区"})
-	//db.AutoMigrate(&model.Video{})
+
+	db.AutoMigrate(&model.Post{})
 	//db.AutoMigrate(&model.Resource{})
 	//db.AutoMigrate(&model.Liked{})       //点赞表
 	//db.AutoMigrate(&model.Collect{})     //收藏表
