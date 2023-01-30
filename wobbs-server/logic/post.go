@@ -13,6 +13,13 @@ func GetPostDetail(pid int32) model.Post {
 	return post
 }
 
+func GetPostList(page int, pageSize int) []model.Post {
+	db := config.GetDB()
+	posts := make([]model.Post, 0)
+	db.Preload("User").Preload("Category").Scopes(config.Paginate(page, pageSize)).Find(&posts)
+	return posts
+}
+
 func CreatePost(userId int64, post dto.PostDTO) {
 	db := config.GetDB()
 	db.Create(&model.Post{AuthorID: userId,

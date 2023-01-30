@@ -14,6 +14,15 @@ import (
 	"wobbs-server/logic"
 )
 
+func GetPostList(ctx *gin.Context) {
+	query1 := ctx.DefaultQuery("page", strconv.Itoa(1))
+	query2 := ctx.DefaultQuery("page_size", strconv.Itoa(10))
+	page, _ := strconv.ParseInt(query1, 10, 32)
+	pageSize, _ := strconv.ParseInt(query2, 10, 32)
+	postList := logic.GetPostList(int(page), int(pageSize))
+	common.Success(ctx, postList)
+}
+
 func GetPostDetail(ctx *gin.Context) {
 	pidStr := ctx.Param("pid")
 	if pidStr == "" {

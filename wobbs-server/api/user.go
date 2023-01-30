@@ -1,7 +1,9 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 
@@ -16,8 +18,10 @@ func GetUserInfoByID(ctx *gin.Context) {
 	res := service.GetUserInfoByIDService(uid)
 	response.HandleResponse(ctx, res)*/
 	value, _ := ctx.Get("userId")
+	userId, _ := strconv.ParseInt(fmt.Sprintf("%v", value), 10, 64)
+
 	ctx.JSON(http.StatusOK, gin.H{
-		"msg": value,
+		"msg": logic.GetUserById(userId),
 	})
 }
 
