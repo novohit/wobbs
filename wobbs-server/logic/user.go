@@ -54,7 +54,7 @@ func Login(user dto.LoginDTO, ctx *gin.Context) vo.Tokens {
 	}
 	// 将access_token 存入redis中 限制同一用户同一IP 同一时间只能登录一个设备
 	// key user:token:user_id:IP value access_token
-	config.RDB.Set(context.Background(), common.ConstUserTokenPrefix+strconv.FormatInt(dbUser.UserID, 10)+":"+ctx.RemoteIP(), accessToken, 2*time.Hour)
+	config.RDB.Set(context.Background(), common.KeyUserTokenPrefix+strconv.FormatInt(dbUser.UserID, 10)+":"+ctx.RemoteIP(), accessToken, 2*time.Hour)
 	return vo.Tokens{
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,

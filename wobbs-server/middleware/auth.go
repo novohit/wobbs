@@ -47,7 +47,7 @@ func AuthRequired() gin.HandlerFunc {
 			ctx.Abort()
 			return
 		}
-		result, err := config.RDB.Get(context.Background(), common.ConstUserTokenPrefix+strconv.FormatInt(claims.UserID, 10)+":"+ctx.RemoteIP()).Result()
+		result, err := config.RDB.Get(context.Background(), common.KeyUserTokenPrefix+strconv.FormatInt(claims.UserID, 10)+":"+ctx.RemoteIP()).Result()
 		// key不存在说明未登录 或者header中的token和redis中的token不一样 说明存在同一ip下同一用户有多次登录
 		if err != nil || result != parts[1] {
 			if err != nil {

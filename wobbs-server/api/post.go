@@ -24,10 +24,10 @@ func GetPostList(ctx *gin.Context) {
 }
 
 func GetPostDetail(ctx *gin.Context) {
-	pidStr := ctx.Param("pid")
+	pidStr := ctx.Param("post_id")
 	if pidStr == "" {
-		zap.L().Error("pid")
-		common.FailByMsg(ctx, "pid为空")
+		zap.L().Error("post_id")
+		common.FailByMsg(ctx, "post_id为空")
 		return
 	}
 	pid, err := strconv.ParseInt(pidStr, 10, 32)
@@ -54,5 +54,16 @@ func CreatePost(ctx *gin.Context) {
 		fmt.Println("未登录")
 	}
 	logic.CreatePost(userId.(int64), postDTO)
+	common.Success(ctx, nil)
+}
+
+func PostVoting(ctx *gin.Context) {
+	var voteDTO dto.VoteDTO
+	if err := ctx.ShouldBind(&voteDTO); err != nil {
+		config.ValidateError(ctx, err)
+		return
+	}
+	userId, _ := ctx.Get("userId")
+	logic.PostVoting(userId.(int64), voteDTO)
 	common.Success(ctx, nil)
 }

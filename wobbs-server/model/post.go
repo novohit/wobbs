@@ -5,6 +5,7 @@ type Post struct {
 	CategoryID int32    `gorm:"column:category_id;not null" json:"category_id"`
 	Title      string   `gorm:"column:title;type:varchar(512)" json:"title"`
 	Content    string   `gorm:"column:content" json:"content"`
+	Star       int      `gorm:"column:star;type:int;comment:文章收藏数量" json:"star"`
 	Status     int      `gorm:"column:status;type:tinyint;comment:文章状态" json:"status"`
 	User       User     `gorm:"foreignKey:UserID;references:AuthorID" json:"user"`
 	Category   Category `gorm:"foreignKey:ID;references:CategoryID;" json:"category"`
