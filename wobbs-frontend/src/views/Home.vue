@@ -5,7 +5,7 @@
       <div class="c-l-header">
         <div class="new btn-iconfont"
         :class="{ active: timeOrder }"
-        @click="selectOrder('time')"
+        @click="selectOrder('create_time')"
         >
           <i class="iconfont icon-polygonred"></i>New
         </div>
@@ -25,7 +25,7 @@
               @click="vote(post.id, 1)"
               ></span>
             </a>
-            <span class="text">{{post.vote_num}}</span>
+            <span class="text">{{post.up}}</span>
             <a class="vote">
               <span class="iconfont icon-down"
               @click="vote(post.id, -1)"
@@ -116,7 +116,7 @@ export default {
   components: {},
   data() {
     return {
-      order: "time",
+      order: "create_time",
       page: 1,
       postList: []
     };
@@ -168,6 +168,7 @@ export default {
         .then(response => {
           if (response.code == 1000) {
             console.log("vote success");
+            this.getPostList()
           } else {
             console.log(response.msg);
           }
@@ -182,7 +183,7 @@ export default {
   },
   computed:{
     timeOrder(){
-      return this.order == "time";
+      return this.order == "create_time";
     },
     scoreOrder(){
       return this.order == "score";

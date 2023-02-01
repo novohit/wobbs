@@ -6,7 +6,8 @@
           <a class="vote">
             <span class="iconfont icon-up"></span>
           </a>
-          <span class="text">50.2k</span>
+          <span class="text">{{post.up}}</span>
+          <span class="text">{{post.down}}</span>
           <a class="vote">
             <span class="iconfont icon-down"></span>
           </a>
