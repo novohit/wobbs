@@ -9,5 +9,7 @@ type Post struct {
 	Status     int      `gorm:"column:status;type:tinyint;comment:文章状态" json:"status"`
 	User       User     `gorm:"foreignKey:UserID;references:AuthorID" json:"user"`
 	Category   Category `gorm:"foreignKey:ID;references:CategoryID;" json:"category"`
+	Up         int      `json:"up"`
+	Down       int      `json:"down"`
 	BaseModel
 }

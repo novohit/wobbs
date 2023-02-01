@@ -15,11 +15,17 @@ import (
 )
 
 func GetPostList(ctx *gin.Context) {
-	query1 := ctx.DefaultQuery("page", strconv.Itoa(1))
-	query2 := ctx.DefaultQuery("page_size", strconv.Itoa(10))
-	page, _ := strconv.ParseInt(query1, 10, 32)
-	pageSize, _ := strconv.ParseInt(query2, 10, 32)
-	postList := logic.GetPostList(int(page), int(pageSize))
+	//query1 := ctx.DefaultQuery("page", "1")
+	//query2 := ctx.DefaultQuery("page_size", "10")
+	//order := ctx.DefaultQuery("order", "create_time")
+	//page, _ := strconv.Atoi(query1)
+	//pageSize, _ := strconv.Atoi(query2)
+	query := dto.PostListQuery{Page: 1, PageSize: 10, Order: "create_time"}
+	if err := ctx.ShouldBind(&query); err != nil {
+		config.ValidateError(ctx, err)
+		return
+	}
+	postList := logic.GetPostList(query.Page, query.PageSize, query.Order)
 	common.Success(ctx, postList)
 }
 

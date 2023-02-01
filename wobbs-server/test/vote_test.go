@@ -4,7 +4,6 @@ import (
 	"flag"
 	"testing"
 	"wobbs-server/config"
-	"wobbs-server/dto"
 	"wobbs-server/logic"
 )
 
@@ -19,8 +18,10 @@ func TestVoting(t *testing.T) {
 	config.InitLogger(config.Conf.LogConfig)
 	// 初始化缓存
 	config.InitRedis(config.Conf.RedisConfig)
-	logic.PostVoting(778797973, dto.VoteDTO{PostID: 4, Type: 1})
-	logic.PostVoting(4, dto.VoteDTO{PostID: 6, Type: 1})
-	logic.PostVoting(5, dto.VoteDTO{PostID: 5, Type: -1})
-	logic.PostVoting(6, dto.VoteDTO{PostID: 3, Type: 1})
+	//logic.PostVoting(778797973, dto.VoteDTO{PostID: 4, Type: 1})
+	//logic.PostVoting(4, dto.VoteDTO{PostID: 6, Type: 1})
+	//logic.PostVoting(5, dto.VoteDTO{PostID: 5, Type: -1})
+	//logic.PostVoting(10386626773520384, dto.VoteDTO{PostID: 9, Type: 0})
+
+	logic.GetVotes([]string{"9", "7", "5", "6"})
 }
