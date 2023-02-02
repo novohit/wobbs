@@ -1,0 +1,184 @@
+basePath: /api
+definitions:
+  common.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      msg: {}
+    type: object
+  dto.LoginDTO:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  dto.RegisterDTO:
+    properties:
+      age:
+        maximum: 100
+        minimum: 0
+        type: integer
+      email:
+        description: Email      string `json:"email" binding:"required,email"`
+        type: string
+      password:
+        type: string
+      re_password:
+        description: 跨字段验证
+        type: string
+      username:
+        minLength: 3
+        type: string
+    required:
+    - password
+    - re_password
+    - username
+    type: object
+host: localhost:8081
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server Petstore server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /post:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页多少条数据
+        in: query
+        name: page_size
+        type: integer
+      - description: 排序字段
+        in: query
+        name: order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: 获取帖子列表
+      tags:
+      - 帖子模块
+  /post/{post_id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 帖子id
+        in: path
+        name: post_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: 获取帖子详情
+      tags:
+      - 帖子模块
+  /user/info:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Bearer 31a165baebe6dec616b1f8f3207b4273
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: 用户详情
+      tags:
+      - 用户模块
+  /user/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: JSON数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/dto.LoginDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: 用户登录
+      tags:
+      - 用户模块
+  /user/register:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: JSON数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RegisterDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: 用户注册
+      tags:
+      - 用户模块
+swagger: "2.0"

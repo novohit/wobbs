@@ -1,13 +1,14 @@
-package main
+package test
 
 import (
 	"flag"
+	"testing"
 
 	"wobbs-server/config"
 	"wobbs-server/model"
 )
 
-func main() {
+func TestM(t *testing.T) {
 	var configPath string
 	flag.StringVar(&configPath, "f", "./config/config.yaml", "配置文件路径")
 	flag.Parse()

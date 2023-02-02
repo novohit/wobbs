@@ -1,13 +1,13 @@
 root = "."
 testdata_dir = "testdata"
 tmp_dir = "tmp"
-
+# 更新swag文档记得要排除监听docs文件夹 否则会监听会死循环
 [build]
   args_bin = []
   bin = "tmp\\main.exe"
-  cmd = "go build -o ./tmp/main.exe ."
+  cmd = "swag init & go build -o ./tmp/main.exe ."
   delay = 1000
-  exclude_dir = ["assets", "tmp", "vendor", "testdata"]
+  exclude_dir = ["assets", "tmp", "vendor", "testdata", "docs"]
   exclude_file = []
   exclude_regex = ["_test.go"]
   exclude_unchanged = false

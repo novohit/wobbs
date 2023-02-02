@@ -14,6 +14,19 @@ import (
 	"wobbs-server/logic"
 )
 
+// GetPostList 获取帖子列表
+// @Summary 获取帖子列表
+// @Schemes
+// @Description
+// @Tags 帖子模块
+// @Accept json
+// @Produce json
+// @Param page query int false "页码"
+// @Param page_size query int false "每页多少条数据"
+// @Param order query string false "排序字段"
+// @Success 200 {object} common.Response
+// @Failure 500 {object} common.Response
+// @Router /post [get]
 func GetPostList(ctx *gin.Context) {
 	//query1 := ctx.DefaultQuery("page", "1")
 	//query2 := ctx.DefaultQuery("page_size", "10")
@@ -29,6 +42,17 @@ func GetPostList(ctx *gin.Context) {
 	common.Success(ctx, postList)
 }
 
+// GetPostDetail 获取帖子详情
+// @Summary 获取帖子详情
+// @Schemes
+// @Description
+// @Tags 帖子模块
+// @Accept json
+// @Produce json
+// @Param post_id path int false "帖子id"
+// @Success 200 {object} common.Response
+// @Failure 500 {object} common.Response
+// @Router /post/{post_id} [get]
 func GetPostDetail(ctx *gin.Context) {
 	pidStr := ctx.Param("post_id")
 	if pidStr == "" {
