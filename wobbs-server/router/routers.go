@@ -1,6 +1,7 @@
 package router
 
 import (
+	"net/http"
 	"time"
 	"wobbs-server/docs"
 
@@ -19,7 +20,14 @@ func InitRouter() *gin.Engine {
 	r := gin.New()
 	r.Use(config.RecoveryWithZap(zap.L(), false))
 	r.Use(config.LoggerWithZap(zap.L(), time.RFC3339, true))
+
 	docs.SwaggerInfo.BasePath = "/api"
+
+	r.LoadHTMLFiles("template/index.html")
+	r.Static("/static", "./static")
+	r.GET("/", func(ctx *gin.Context) {
+		ctx.HTML(http.StatusOK, "index.html", nil)
+	})
 	//r.Use(middleware.GlobalErrors())
 	v1 := r.Group("/api")
 	{

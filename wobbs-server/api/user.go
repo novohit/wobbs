@@ -71,7 +71,7 @@ func Register(ctx *gin.Context) {
 // @Router /user/login [post]
 func Login(ctx *gin.Context) {
 	var loginDTO dto.LoginDTO
-	if err := ctx.ShouldBind(&loginDTO); err != nil {
+	if err := ctx.ShouldBindJSON(&loginDTO); err != nil {
 		config.ValidateError(ctx, err)
 		return
 	}

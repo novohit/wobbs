@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"go.uber.org/zap"
+	"io/ioutil"
 	"net/http"
 	"reflect"
 	"strings"
@@ -66,6 +67,9 @@ func removeTopStruct(errMsg map[string]string) map[string]string {
 }
 
 func ValidateError(c *gin.Context, err error) {
+	// 打印出 body
+	data, _ := ioutil.ReadAll(c.Request.Body)
+	fmt.Printf("req.body=%s\n, content-type=%v\n", data, c.ContentType())
 	errs, ok := err.(validator.ValidationErrors)
 	// 如果不是参数错误，比如是json格式错误
 	if !ok {
