@@ -20,7 +20,7 @@ log:
   max_age: 30
   max_backups: 7
 mysql:
-  host: mysql_app
+  host: wobbs_mysql
   port: 3306
   username: root
   password: root
@@ -28,7 +28,7 @@ mysql:
   max_open_conns: 200
   max_idle_conns: 50
 redis:
-  host: redis_app
+  host: wobbs_redis
   port: 6379
   password: redis
   database: 5

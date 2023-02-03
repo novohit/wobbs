@@ -1,4 +1,4 @@
-version: "3.9"  #首先是版本号，别乱写，这个是和Docker版本有对应的
+version: "3.9"
 services:
   go_web:
     container_name: wobbs_web
@@ -12,7 +12,7 @@ services:
     restart: always
   mysql:
     container_name: wobbs_mysql
-    image: mysql:latest
+    image: mysql:8.0.32
     ports:
       - "13306:3306"
     #command: "--default-authentication-plugin=mysql_native_password --init-file /data/application/init.sql"
@@ -24,7 +24,7 @@ services:
     #  - ./init.sql:/data/application/init.sql
   redis:
     container_name: wobbs_redis
-    image: redis:latest
+    image: redis:7.0.8
     ports:
       - "16379:6379"
     command: redis-server --requirepass redis
