@@ -40,5 +40,5 @@ func main() {
 	config.InitRedis(config.Conf.RedisConfig)
 	// 初始化路由
 	r := router.InitRouter()
-	r.Run(fmt.Sprintf("%s:%d", config.Conf.Host, config.Conf.Port))
+	r.Run(fmt.Sprintf(":%d", config.Conf.Port))
 }
