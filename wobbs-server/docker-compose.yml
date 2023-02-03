@@ -1,0 +1,31 @@
+version: "3.9"  #首先是版本号，别乱写，这个是和Docker版本有对应的
+services:
+  go_web:
+    container_name: wobbs_app
+    build: .
+    #command: sh -c "./wait-for.sh mysql:3306 reids:6379 -- ./wobbs_app ./config/config.yaml"
+    depends_on:
+      - mysql
+      - redis
+    ports:
+      - "8088:8088"
+    restart: always
+  mysql:
+    container_name: mysql_app
+    image: mysql:latest
+    ports:
+      - "13306:3306"
+    #command: "--default-authentication-plugin=mysql_native_password --init-file /data/application/init.sql"
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "wobbs"
+      MYSQL_PASSWORD: "root"
+    #volumes:
+    #  - ./init.sql:/data/application/init.sql
+  redis:
+    container_name: redis_app
+    image: redis:latest
+    ports:
+      - "16379:6379"
+    command: redis-server --requirepass redis
+    restart: always

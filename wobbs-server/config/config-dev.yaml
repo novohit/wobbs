@@ -1,7 +1,7 @@
 name: "wobbs"
 mode: "release"
 host: localhost
-port: 8088
+port: 8081
 version: "v0.0.1"
 snowflake:
   start_time: "2023-01-01"
@@ -20,15 +20,15 @@ log:
   max_age: 30
   max_backups: 7
 mysql:
-  host: mysql_app
-  port: 3306
+  host: localhost
+  port: 3308
   username: root
   password: root
   database: "wobbs"
   max_open_conns: 200
   max_idle_conns: 50
 redis:
-  host: redis_app
+  host: 116.62.108.144
   port: 6379
   password: redis
   database: 5
