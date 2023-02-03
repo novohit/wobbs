@@ -1,7 +1,7 @@
 version: "3.9"  #首先是版本号，别乱写，这个是和Docker版本有对应的
 services:
   go_web:
-    container_name: wobbs_app
+    container_name: wobbs_web
     build: .
     #command: sh -c "./wait-for.sh mysql:3306 reids:6379 -- ./wobbs_app ./config/config.yaml"
     depends_on:
@@ -11,7 +11,7 @@ services:
       - "8088:8088"
     restart: always
   mysql:
-    container_name: mysql_app
+    container_name: wobbs_mysql
     image: mysql:latest
     ports:
       - "13306:3306"
@@ -23,7 +23,7 @@ services:
     #volumes:
     #  - ./init.sql:/data/application/init.sql
   redis:
-    container_name: redis_app
+    container_name: wobbs_redis
     image: redis:latest
     ports:
       - "16379:6379"

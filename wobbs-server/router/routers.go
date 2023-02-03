@@ -1,16 +1,15 @@
 package router
 
 import (
-	"net/http"
-	"time"
-	"wobbs-server/docs"
-
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"go.uber.org/zap"
-
+	"net/http"
+	"time"
 	"wobbs-server/config"
+	"wobbs-server/docs"
+	"wobbs-server/middleware"
 )
 
 func InitRouter() *gin.Engine {
@@ -28,6 +27,9 @@ func InitRouter() *gin.Engine {
 	r.GET("/", func(ctx *gin.Context) {
 		ctx.HTML(http.StatusOK, "index.html", nil)
 	})
+
+	r.Use(middleware.RateLimit(time.Second, 1000))
+	//r.Use(middleware.RateLimit2(1))
 	//r.Use(middleware.GlobalErrors())
 	v1 := r.Group("/api")
 	{
