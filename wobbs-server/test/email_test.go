@@ -21,6 +21,7 @@ func TestSendEmail(t *testing.T) {
 	//err := e.Send("smtp.163.com:587", smtp.PlainAuth("", "zwx_info@163.com", "YKSKCZQCFIPWREFS", "smtp.163.com"))
 	// 如果出现EOF异常 则关闭ssl重试
 	// 跳过验证
+	// 465/587
 	err := e.SendWithTLS("smtp.163.com:587",
 		smtp.PlainAuth("", "zwx_info@163.com", "YKSKCZQCFIPWREFS", "smtp.163.com"),
 		&tls.Config{InsecureSkipVerify: true, ServerName: "smtp.163.com"})

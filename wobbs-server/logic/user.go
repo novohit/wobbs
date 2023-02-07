@@ -3,9 +3,12 @@ package logic
 import (
 	"context"
 	"errors"
-	"github.com/gin-gonic/gin"
 	"strconv"
 	"time"
+	"wobbs-server/pkg/passwd"
+
+	"github.com/gin-gonic/gin"
+
 	"wobbs-server/common"
 	"wobbs-server/config"
 	"wobbs-server/dto"
@@ -27,9 +30,10 @@ func Register(user dto.RegisterDTO) {
 		UserID:   snowflake.GenerateID(),
 		Username: user.Username,
 		Email:    user.Email,
-		Password: user.Password,
+		Password: passwd.Encode(user.Password),
 		Age:      user.Age,
 	}
+
 	result := DB.Create(&newUser)
 	if result.RowsAffected == 0 {
 		panic(errors.New("创建失败"))
@@ -41,9 +45,11 @@ func Login(user dto.LoginDTO, ctx *gin.Context) vo.Tokens {
 	if dbUser.ID == 0 {
 		panic(common.NewCustomError(common.CodeInvalidPassword))
 	}
-	if dbUser.Password != user.Password {
+
+	if !passwd.Verify(user.Password, dbUser.Password) {
 		panic(common.NewCustomError(common.CodeInvalidPassword))
 	}
+
 	accessToken, err := jwt.AccessToken(dbUser.UserID)
 	if err != nil {
 		panic(err)

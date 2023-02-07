@@ -17,6 +17,7 @@ type AppConfig struct {
 	Version string `mapstructure:"version"`
 
 	*SnowflakeConfig `mapstructure:"snowflake"`
+	*AuthConfig      `mapstructure:"auth"`
 	*LogConfig       `mapstructure:"log"`
 	*MySQLConfig     `mapstructure:"mysql"`
 	*RedisConfig     `mapstructure:"redis"`
@@ -25,6 +26,11 @@ type AppConfig struct {
 type SnowflakeConfig struct {
 	StartTime string `mapstructure:"start_time"`
 	MachineID int64  `mapstructure:"machine_id"`
+}
+
+type AuthConfig struct {
+	JwtExpired int    `mapstructure:"jwt_expired"`
+	Secret     string `mapstructure:"secret"`
 }
 
 type MySQLConfig struct {

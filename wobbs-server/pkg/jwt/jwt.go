@@ -3,7 +3,9 @@ package jwt
 import (
 	"errors"
 	"fmt"
+	"go.uber.org/zap"
 	"time"
+	"wobbs-server/config"
 
 	"github.com/golang-jwt/jwt/v4"
 )
@@ -13,8 +15,21 @@ type CustomClaims struct {
 	jwt.RegisteredClaims
 }
 
+var secret string
+
+func initSecret() {
+	authConfig := config.Conf.AuthConfig
+	if authConfig == nil {
+		zap.L().Error("auth config is nil")
+	}
+	secret = authConfig.Secret
+}
+
 func generateToken(userId int64, expire time.Duration) (string, error) {
-	mySigningKey := []byte("AllYourBase")
+	if secret == "" {
+		initSecret()
+	}
+	mySigningKey := []byte(secret)
 	// Create the claims
 	claims := CustomClaims{
 		userId,
@@ -41,8 +56,11 @@ func RefreshToken(userId int64) (string, error) {
 }
 
 func VerifyToken(tokenString string) (*CustomClaims, error) {
+	if secret == "" {
+		initSecret()
+	}
 	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte("AllYourBase"), nil
+		return []byte(secret), nil
 	})
 
 	if err != nil {
