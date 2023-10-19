@@ -16,6 +16,7 @@
       </div>
       <div class="form-btn">
         <button type="button" class="btn btn-info" @click="submit">提交</button>
+        <button type="button" class="btn btn-info" @click="goRegisterEmail" style="margin-left:10px;">通过邮箱注册</button>
       </div>
     </div>
   </div>
@@ -38,6 +39,9 @@ export default {
 
 	},
 	methods: {
+    goRegisterEmail() {
+      this.$router.push({ name: "RegisterE" });
+    },
 		submit() {
 			this.$axios({
 				method: 'post',

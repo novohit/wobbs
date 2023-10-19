@@ -1,14 +1,14 @@
 <template>
   <div class="main">
     <div class="container">
-      <h2 class="form-title">注册</h2>
+      <h2 class="form-title">邮箱注册</h2>
       <div class="form-group">
-        <label for="name">用户名</label>
-        <input type="text" class="form-control" name="name" id="name" placeholder="用户名" v-model="username"/>
+        <label for="name">邮箱</label>
+        <input type="text" class="form-control" name="name" id="name" placeholder="邮箱" v-model="username"/>
       </div>
       <div class="form-group">
-        <label for="pass">密码</label>
-        <input type="password" class="form-control" name="pass" id="pass" placeholder="密码" v-model="password"/>
+        <label for="pass">验证码</label>
+        <input type="text" class="form-control" name="pass" id="pass" placeholder="验证码" v-model="password"/>
       </div>
       <div class="form-group">
         <label for="re_pass">确认密码</label>
@@ -38,9 +38,6 @@ export default {
 
 	},
 	methods: {
-    goRegisterEmail() {
-      this.$router.push({ name: "RegisterE" });
-    },
 		submit() {
 			this.$axios({
 				method: 'post',

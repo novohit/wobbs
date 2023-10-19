@@ -5,6 +5,7 @@ import Content from '../views/Content.vue'
 import Publish from '../views/Publish.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
+import RegisterE from '../views/RegisterE.vue'
 const originalPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err);
@@ -37,6 +38,11 @@ Vue.use(VueRouter)
     path: '/register',
     name:"Register",
     component: Register
+  },
+  {
+    path: '/registere',
+    name:"RegisterE",
+    component: RegisterE
   }
 ]
 
